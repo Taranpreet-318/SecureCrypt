@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — SecureCrypt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="{{ url_for('dashboard_page') }}">
+      <div class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="#1c1200" stroke-width="2.4"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
+      <div>SecureCrypt<small>Encrypt. Protect. Trust.</small></div>
+    </a>
+    <nav class="links">
+      <a href="{{ url_for('dashboard_page') }}" class="active">Dashboard</a>
+      <a href="{{ url_for('encrypt_decrypt_page') }}">Encrypt / Decrypt</a>
+    </nav>
+    <div class="nav-actions">
+      <span class="pill"><span class="dot"></span>{{ user['username'] }}</span>
+      <button class="btn btn-ghost" id="logoutBtn">Log out</button>
+    </div>
+  </div>
+</header>
+
+<div class="dash wrap">
+  <div class="dash-head">
+    <div>
+      <h1>Welcome back, {{ user['username'] }}</h1>
+      <p>Here's what's happened in your vault.</p>
+    </div>
+    <a href="{{ url_for('encrypt_decrypt_page') }}" class="btn btn-primary btn-lg">Encrypt / Decrypt a file</a>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="label">Files encrypted</div>
+      <div class="value" id="statEncrypted">—</div>
+      <div class="sub">This account, all time</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Files decrypted</div>
+      <div class="value" id="statDecrypted">—</div>
+      <div class="sub">This account, all time</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Total operations</div>
+      <div class="value" id="statTotal">—</div>
+      <div class="sub">Encrypt + decrypt combined</div>
+    </div>
+  </div>
+
+  <div class="dash-grid">
+    <div class="panel">
+      <h2>Recent activity</h2>
+      <p class="panel-sub">Filenames and actions only — file contents are never sent to this server.</p>
+      <table class="log-table">
+        <thead>
+          <tr><th>File</th><th>Action</th><th>When</th></tr>
+        </thead>
+        <tbody id="logTableBody"></tbody>
+      </table>
+      <div class="empty-state" id="emptyState" style="display:none;">No activity yet. Encrypt a file to see it here.</div>
+    </div>
+
+    <div>
+      <div class="panel">
+        <h2>Account</h2>
+        <p class="panel-sub">Your account details</p>
+        <div class="account-row"><span class="k">Username</span><span class="v">{{ user['username'] }}</span></div>
+        <div class="account-row"><span class="k">Email</span><span class="v">{{ user['email'] }}</span></div>
+        <div class="account-row"><span class="k">Member since</span><span class="v">{{ user['created_at'].strftime('%Y-%m-%d') }}</span></div>
+      </div>
+      <div class="panel cta-panel">
+        <p>Ready to lock down another file?</p>
+        <a href="{{ url_for('encrypt_decrypt_page') }}" class="btn btn-primary btn-block">Open Encrypt / Decrypt tool</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" style="margin-top:20px;">
+    <h2>Login activity</h2>
+    <p class="panel-sub">Signups, logins, failed attempts, and logouts for your account.</p>
+    <table class="log-table">
+      <thead>
+        <tr><th>Event</th><th>IP address</th><th>When</th></tr>
+      </thead>
+      <tbody id="authLogTableBody"></tbody>
+    </table>
+    <div class="empty-state" id="authEmptyState" style="display:none;">No login activity recorded yet.</div>
+  </div>
+</div>
+
+<footer>© 2026 SecureCrypt. Your files, your password, your control.</footer>
+
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>

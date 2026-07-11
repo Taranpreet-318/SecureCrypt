@@ -1,0 +1,18 @@
+# Render "Blueprint" — lets you deploy this whole web service by clicking
+# "New +" -> "Blueprint" in the Render dashboard and pointing it at this repo.
+# The database itself lives on Supabase, not Render, so DATABASE_URL is left
+# for you to fill in manually in the Render dashboard (sync: false means
+# "don't auto-generate this value, ask the user").
+services:
+  - type: web
+    name: securecrypt
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
+    healthCheckPath: /healthz

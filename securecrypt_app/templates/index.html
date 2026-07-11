@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SecureCrypt — Encrypt. Protect. Trust.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="{{ url_for('index') }}">
+      <div class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="#1c1200" stroke-width="2.4"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
+      <div>SecureCrypt<small>Encrypt. Protect. Trust.</small></div>
+    </a>
+    <nav class="links">
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+    </nav>
+    <div class="nav-actions">
+      {% if user %}
+        <a class="btn btn-outline" href="{{ url_for('dashboard_page') }}">Dashboard</a>
+        <a class="btn btn-primary" href="{{ url_for('encrypt_decrypt_page') }}">Encrypt / Decrypt</a>
+      {% else %}
+        <a class="btn btn-ghost" href="{{ url_for('login_page') }}">Log in</a>
+        <a class="btn btn-primary" href="{{ url_for('signup_page') }}">Sign up →</a>
+      {% endif %}
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow-row">
+        <span class="pill"><span class="dot"></span>AES-256 encryption</span>
+        <span class="pill">Zero server storage</span>
+      </div>
+      <h1 class="headline">Every file, <em>locked</em><br>like it belongs in a vault.</h1>
+      <p class="sub">SecureCrypt encrypts your files with AES-256 directly in your browser. No uploads, no servers, no one but you holding the key.</p>
+      <div class="hero-ctas">
+        {% if user %}
+          <a href="{{ url_for('encrypt_decrypt_page') }}" class="btn btn-primary btn-lg">Encrypt a file</a>
+          <a href="{{ url_for('dashboard_page') }}" class="btn btn-outline btn-lg">Go to dashboard</a>
+        {% else %}
+          <a href="{{ url_for('signup_page') }}" class="btn btn-primary btn-lg">Create free account</a>
+          <a href="#how" class="btn btn-outline btn-lg">See how it works</a>
+        {% endif %}
+      </div>
+      <div class="formats">
+        <span>Supports</span>
+        <span class="tag">PDF</span><span class="tag">DOCX</span><span class="tag">PNG</span><span class="tag">ZIP</span><span class="tag">MP4</span><span class="tag">+ any file</span>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="vault-outer">
+        <div class="dial-ring spin" id="dialRing"></div>
+        <div class="vault-door">
+          <div class="rivets" id="rivets"></div>
+        </div>
+        <div class="vault-handle"></div>
+        <div class="vault-core"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="pill">Why SecureCrypt</span>
+      <h2>Built like a vault, not a filing cabinet</h2>
+      <p>Every design decision favors one thing: nobody but you should ever hold the key.</p>
+    </div>
+    <div class="feature-grid">
+      <div class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
+        <h3>AES-256 encryption</h3>
+        <p>The same cipher trusted by banks and governments, applied to every file you lock.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 4v12M8 12l4 4 4-4"/><path d="M4 20h16"/></svg></div>
+        <h3>Drag & drop</h3>
+        <p>Drop a file in, get an encrypted one back. Sign up in seconds to try it.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg></div>
+        <h3>Password-derived keys</h3>
+        <p>Your password never leaves your device. It's used only to derive the key locally.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 12h4l2-7 4 14 2-7h6"/></svg></div>
+        <h3>Session activity log</h3>
+        <p>See every file you've locked or opened, right from your dashboard.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z"/></svg></div>
+        <h3>Runs entirely local</h3>
+        <p>Processing happens in your browser via the Web Crypto API — nothing is ever uploaded.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg></div>
+        <h3>Tamper detection</h3>
+        <p>Authenticated encryption means a modified file simply refuses to decrypt.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="pill">How it works</span>
+      <h2>Four steps to a locked file</h2>
+    </div>
+    <div class="steps-panel">
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><h4>Create an account</h4><p>Sign up in seconds — it's free.</p><div class="step-connector"></div></div>
+        <div class="step"><div class="step-num">2</div><h4>Upload a file</h4><p>Drag & drop or browse from your device.</p><div class="step-connector"></div></div>
+        <div class="step"><div class="step-num">3</div><h4>Set a password</h4><p>AES-256 locks the file in your browser.</p><div class="step-connector"></div></div>
+        <div class="step"><div class="step-num">4</div><h4>Download</h4><p>Save your encrypted file, ready to share.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="cta-band">
+      <h2>Ready to lock down your files?</h2>
+      <p>Create a free account and start encrypting in under a minute.</p>
+      {% if user %}
+        <a href="{{ url_for('encrypt_decrypt_page') }}" class="btn btn-primary btn-lg">Open Encrypt / Decrypt tool</a>
+      {% else %}
+        <a href="{{ url_for('signup_page') }}" class="btn btn-primary btn-lg">Create free account</a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<div class="stats-bar wrap">
+  <div class="stat"><b>256-bit</b><span>AES encryption</span></div>
+  <div class="stat"><b>100%</b><span>Client-side processing</span></div>
+  <div class="stat"><b>0</b><span>Files stored on our servers</span></div>
+  <div class="stat"><b>Any</b><span>File type supported</span></div>
+</div>
+
+<footer>© 2026 SecureCrypt. Your files, your password, your control.</footer>
+
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+</body>
+</html>
